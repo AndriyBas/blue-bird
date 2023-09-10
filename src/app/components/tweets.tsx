@@ -21,7 +21,7 @@ export default function Tweets({ tweets }: { tweets: TweetWithAuthor[] }) {
         (payload) => {
           console.log({ payload });
           router.refresh();
-        }
+        },
       )
       .subscribe();
     return () => {

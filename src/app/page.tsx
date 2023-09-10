@@ -18,22 +18,26 @@ export default async function Home() {
 
   const { data } = await supabase
     .from("tweets")
-    .select("*,author:profiles(*),likes(user_id)");
+    .select("*,author:profiles(*),likes(user_id)")
+    .order("created_at", { ascending: false });
 
   const tweets: TweetWithAuthor[] =
     data?.map((t) => ({
       ...t,
       author: Array.isArray(t.author) ? t.author[0] : t.author,
       user_has_liked_tweet: Boolean(
-        t.likes.find((l) => l.user_id === session.user.id)
+        t.likes.find((l) => l.user_id === session.user.id),
       ),
       likes_count: t.likes.length,
     })) ?? [];
 
   return (
-    <div>
-      <AuthButtonServer />
-      <NewTweet />
+    <div className="mx-auto w-full max-w-xl">
+      <div className="flex justify-between border border-t-0 border-gray-800 px-4 py-6">
+        <h1 className="text-xl font-bold">Home</h1>
+        <AuthButtonServer />
+      </div>
+      <NewTweet user={session.user} />
       <Tweets tweets={tweets} />
     </div>
   );

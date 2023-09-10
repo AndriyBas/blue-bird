@@ -30,8 +30,16 @@ export default function AuthButtonClient<Database>({
 
   return (
     <>
-      {!session && <button onClick={handleSignIn}>Log In</button>}
-      {session && <button onClick={handleLogOut}>Log Out</button>}
+      {!session && (
+        <button className="text-xs text-gray-400" onClick={handleSignIn}>
+          Log In
+        </button>
+      )}
+      {session && (
+        <button className="text-xs text-gray-400" onClick={handleLogOut}>
+          Log Out
+        </button>
+      )}
     </>
   );
 }
